@@ -1,5 +1,5 @@
 # universidadEvaluacion
-
+Luego de hacer el update de la base de datos, insert los datos del archivo [data.sql](data.sql)
 
 1. Devuelve un listado con el primer apellido, segundo apellido y el nombre de todos los alumnos. El listado deberá estar ordenado alfabéticamente de menor a mayor por el primer apellido, segundo apellido y nombre.
 
