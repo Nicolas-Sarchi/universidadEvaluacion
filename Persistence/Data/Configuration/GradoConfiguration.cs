@@ -12,6 +12,6 @@ public class GradoConfiguration : IEntityTypeConfiguration<Grado>
 
         builder.Property(p => p.Nombre)
         .IsRequired()
-        .HasMaxLength(50);
+        .HasMaxLength(100);
     }
 }

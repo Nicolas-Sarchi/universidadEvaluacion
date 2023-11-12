@@ -13,14 +13,12 @@ namespace Domain.Entities
         public TipoAsignatura TipoAsignatura { get; set; }
         public int Curso { get; set; }
         public int Cuatrimestre { get; set; }
+        public int? Id_Profesor { get; set; }
+        public Profesor Profesor { get; set; }
         public int Id_Grado { get; set; }
         public Grado Grado { get; set; }
-        public int Id_Profesor { get; set; }
-        public Profesor Profesor { get; set; }
+        
         public ICollection<AlumnoAsignatura> AlumnoAsignaturas { get; set; } 
-        public ICollection<Persona> Personas { get; set; }
-        // public  ICollection<CursoEscolar> CursosEscolares { get; set; }
-
-
+    
     }
 }

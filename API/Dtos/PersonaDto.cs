@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace API.Dtos
 {
-    public class Persona : BaseEntity
+    public class PersonaDto : BaseDto
     {
         public string NIF { get; set; }
         public string Nombre { get; set; }
@@ -15,14 +15,7 @@ namespace Domain.Entities
         public string Direccion { get; set; }
         public string Telefono { get; set; }
         public DateOnly FechaNacimiento { get; set; }
-        public int Id_Sexo { get; set; }
-        public Sexo Sexo { get; set; }
-        public int IdTipoPersona { get; set; }
-        public TipoPersona TipoPersona { get; set; }
-        public ICollection<Profesor> Profesores { get; set; }
-
-        public ICollection<AlumnoAsignatura> AlumnoAsignaturas { get; set; }
-       
-
+        public string Sexo { get; set; }
+        public string TipoPersona { get; set; }
     }
 }

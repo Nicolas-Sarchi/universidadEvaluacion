@@ -10,11 +10,6 @@ namespace Persistence.Data
 {
     public class UniversidadContext  :DbContext
     {
-         public UniversidadContext(DbContextOptions<UniversidadContext> options) : base(options)
-        {
-
-        }
-
         public DbSet<Persona> Personas { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
         public DbSet<Asignatura> Asignaturas { get; set; }
@@ -25,6 +20,12 @@ namespace Persistence.Data
         public DbSet<AlumnoAsignatura> AlumnoAsignaturas { get; set; }
         public DbSet<Grado> Grados { get; set; }
         public DbSet<CursoEscolar> CursosEscolares { get; set; }
+         public UniversidadContext(DbContextOptions<UniversidadContext> options) : base(options)
+        {
+
+        }
+
+        
 
          protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -29,5 +29,9 @@ public class AsignaturaConfiguration : IEntityTypeConfiguration<Asignatura>
         builder.HasOne(p => p.Profesor)
         .WithMany(p => p.Asignaturas)
         .HasForeignKey(p => p.Id_Profesor);
+
+        builder.HasOne(p => p.TipoAsignatura)
+        .WithMany(p => p.Asignaturas)
+        .HasForeignKey(p => p.IdTipoAsignatura);
     }
 }

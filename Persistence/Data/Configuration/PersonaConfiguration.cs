@@ -35,7 +35,6 @@ public class PersonaConfiguration : IEntityTypeConfiguration<Persona>
         .HasMaxLength(50);
 
         builder.Property(p => p.Telefono)
-        .IsRequired()
         .HasMaxLength(9);
 
         builder.Property(p => p.FechaNacimiento)
@@ -50,9 +49,7 @@ public class PersonaConfiguration : IEntityTypeConfiguration<Persona>
         .WithMany(p => p.Personas)
         .HasForeignKey(p => p.IdTipoPersona);
 
-        builder.HasOne(p => p.Profesor)
-            .WithOne(d => d.Persona)
-            .HasForeignKey<Profesor>(d => d.Id);
+        
 
 
        

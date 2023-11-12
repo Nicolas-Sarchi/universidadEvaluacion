@@ -19,21 +19,6 @@ namespace Persistence.Data.Migrations
                 .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("AsignaturaPersona", b =>
-                {
-                    b.Property<int>("AsignaturasId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PersonasId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AsignaturasId", "PersonasId");
-
-                    b.HasIndex("PersonasId");
-
-                    b.ToTable("AsignaturaPersona");
-                });
-
             modelBuilder.Entity("Domain.Entities.AlumnoAsignatura", b =>
                 {
                     b.Property<int>("Id_alumno")
@@ -69,16 +54,13 @@ namespace Persistence.Data.Migrations
                     b.Property<sbyte>("Curso")
                         .HasColumnType("tinyint(3)");
 
-                    b.Property<int?>("CursoEscolarId")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdTipoAsignatura")
                         .HasColumnType("int");
 
                     b.Property<int>("Id_Grado")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id_Profesor")
+                    b.Property<int?>("Id_Profesor")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -86,18 +68,13 @@ namespace Persistence.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<int?>("TipoAsignaturaId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CursoEscolarId");
+                    b.HasIndex("IdTipoAsignatura");
 
                     b.HasIndex("Id_Grado");
 
                     b.HasIndex("Id_Profesor");
-
-                    b.HasIndex("TipoAsignaturaId");
 
                     b.ToTable("Asignatura", (string)null);
                 });
@@ -143,8 +120,8 @@ namespace Persistence.Data.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -172,9 +149,6 @@ namespace Persistence.Data.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("varchar(25)");
 
-                    b.Property<int?>("CursoEscolarId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Direccion")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -182,9 +156,6 @@ namespace Persistence.Data.Migrations
 
                     b.Property<DateOnly>("FechaNacimiento")
                         .HasColumnType("date");
-
-                    b.Property<int>("IdProfesor")
-                        .HasColumnType("int");
 
                     b.Property<int>("IdTipoPersona")
                         .HasColumnType("int");
@@ -203,13 +174,10 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("varchar(25)");
 
                     b.Property<string>("Telefono")
-                        .IsRequired()
                         .HasMaxLength(9)
                         .HasColumnType("varchar(9)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CursoEscolarId");
 
                     b.HasIndex("IdTipoPersona");
 
@@ -221,6 +189,7 @@ namespace Persistence.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Profesor", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int>("IdPersona")
@@ -230,6 +199,8 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdPersona");
 
                     b.HasIndex("Id_departamento");
 
@@ -284,21 +255,6 @@ namespace Persistence.Data.Migrations
                     b.ToTable("Tipo_Persona", (string)null);
                 });
 
-            modelBuilder.Entity("AsignaturaPersona", b =>
-                {
-                    b.HasOne("Domain.Entities.Asignatura", null)
-                        .WithMany()
-                        .HasForeignKey("AsignaturasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Persona", null)
-                        .WithMany()
-                        .HasForeignKey("PersonasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entities.AlumnoAsignatura", b =>
                 {
                     b.HasOne("Domain.Entities.Persona", "Persona")
@@ -328,9 +284,11 @@ namespace Persistence.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Asignatura", b =>
                 {
-                    b.HasOne("Domain.Entities.CursoEscolar", null)
+                    b.HasOne("Domain.Entities.TipoAsignatura", "TipoAsignatura")
                         .WithMany("Asignaturas")
-                        .HasForeignKey("CursoEscolarId");
+                        .HasForeignKey("IdTipoAsignatura")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Entities.Grado", "Grado")
                         .WithMany("Asignaturas")
@@ -340,13 +298,7 @@ namespace Persistence.Data.Migrations
 
                     b.HasOne("Domain.Entities.Profesor", "Profesor")
                         .WithMany("Asignaturas")
-                        .HasForeignKey("Id_Profesor")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.TipoAsignatura", "TipoAsignatura")
-                        .WithMany("Asignaturas")
-                        .HasForeignKey("TipoAsignaturaId");
+                        .HasForeignKey("Id_Profesor");
 
                     b.Navigation("Grado");
 
@@ -357,10 +309,6 @@ namespace Persistence.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Persona", b =>
                 {
-                    b.HasOne("Domain.Entities.CursoEscolar", null)
-                        .WithMany("Personas")
-                        .HasForeignKey("CursoEscolarId");
-
                     b.HasOne("Domain.Entities.TipoPersona", "TipoPersona")
                         .WithMany("Personas")
                         .HasForeignKey("IdTipoPersona")
@@ -381,8 +329,8 @@ namespace Persistence.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Profesor", b =>
                 {
                     b.HasOne("Domain.Entities.Persona", "Persona")
-                        .WithOne("Profesor")
-                        .HasForeignKey("Domain.Entities.Profesor", "Id")
+                        .WithMany("Profesores")
+                        .HasForeignKey("IdPersona")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -405,10 +353,6 @@ namespace Persistence.Data.Migrations
             modelBuilder.Entity("Domain.Entities.CursoEscolar", b =>
                 {
                     b.Navigation("AlumnoAsignaturas");
-
-                    b.Navigation("Asignaturas");
-
-                    b.Navigation("Personas");
                 });
 
             modelBuilder.Entity("Domain.Entities.Departamento", b =>
@@ -425,7 +369,7 @@ namespace Persistence.Data.Migrations
                 {
                     b.Navigation("AlumnoAsignaturas");
 
-                    b.Navigation("Profesor");
+                    b.Navigation("Profesores");
                 });
 
             modelBuilder.Entity("Domain.Entities.Profesor", b =>
